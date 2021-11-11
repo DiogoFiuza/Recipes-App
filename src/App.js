@@ -18,6 +18,7 @@ import FoodRecipes from './pages/FoodRecipes';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import RecipesMade from './pages/RecipesMade';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -30,20 +31,21 @@ function App() {
         path="/explorar/bebidas/ingredientes"
         component={ ExploreDrinksByIngredients }
       />
-      <Route path="/explorar/comidas/area" component={ ExploreFoodsByOrigin } />
-      <Route path="/comidas/:id/in-progress" component={ FoodProgress } />
-      <Route path="/bebidas/:id/in-progress" component={ DrinkProgress } />
-      <Route path="/comidas/:id" component={ FoodDetails } />
-      <Route path="/bebidas/:id" component={ DrinkDetails } />
-      <Route path="/explorar/comidas" component={ ExploreFood } />
-      <Route path="/explorar/bebidas" component={ ExploreDrinks } />
-      <Route path="/receitas-feitas" component={ RecipesMade } />
-      <Route path="/receitas-favoritas" component={ FavoriteRecipes } />
-      <Route path="/perfil" component={ Profile } />
-      <Route path="/explorar" component={ Explore } />
-      <Route path="/comidas" component={ FoodRecipes } />
-      <Route path="/bebidas" component={ DrinkRecipes } />
+      <Route exact path="/explorar/comidas/area" component={ ExploreFoodsByOrigin } />
+      <Route exact path="/comidas/:id/in-progress" component={ FoodProgress } />
+      <Route exact path="/bebidas/:id/in-progress" component={ DrinkProgress } />
+      <Route exact path="/comidas/:id" component={ FoodDetails } />
+      <Route exact path="/bebidas/:id" component={ DrinkDetails } />
+      <Route exact path="/explorar/comidas" component={ ExploreFood } />
+      <Route exact path="/explorar/bebidas" component={ ExploreDrinks } />
+      <Route exact path="/receitas-feitas" component={ RecipesMade } />
+      <Route exact path="/receitas-favoritas" component={ FavoriteRecipes } />
+      <Route exact path="/perfil" component={ Profile } />
+      <Route exact path="/explorar" component={ Explore } />
+      <Route exact path="/comidas" component={ FoodRecipes } />
+      <Route exact path="/bebidas" component={ DrinkRecipes } />
       <Route exact path="/" component={ Home } />
+      <Route path="*" component={ NotFound } />
     </Switch>
   );
 }
