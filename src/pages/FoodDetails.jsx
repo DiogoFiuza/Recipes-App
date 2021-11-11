@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { fetchFoodById } from '../redux/slices/foodRecipesSlice';
@@ -13,6 +13,7 @@ export default function FoodDetails() {
   const dispatch = useDispatch();
   const { mealDetail } = useSelector((store) => store.foodRecipes);
   const { suggestedDrink } = useSelector((store) => store.drinkRecipes);
+  const [buttonName, setButtonName] = useState('Start');
 
   useEffect(() => {
     dispatch(fetchFoodById(index));
@@ -38,6 +39,15 @@ export default function FoodDetails() {
         { mensure[i] ? `-  ${mensure[i]}` : ''}
       </p>
     ));
+  };
+
+  const handleClick = () => {
+    if (buttonName === 'Start') {
+      setButtonName('Continuar Receita');
+    } else {
+      setButtonName('Start');
+    }
+    history.push(`/comidas/${index}/in-progress`);
   };
 
   return (
@@ -84,11 +94,12 @@ export default function FoodDetails() {
             }
           </div>
           <button
+            onClick={ () => handleClick() }
             className="star-btn"
             type="button"
             data-testid="start-recipe-btn"
           >
-            Start
+            { buttonName }
           </button>
         </div>
       ))}
