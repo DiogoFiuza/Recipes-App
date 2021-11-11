@@ -30,6 +30,7 @@ const mockDoneRecipes = [
 export default function RecipesMade() {
   const title = 'Receitas Feitas';
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [type, setType] = useState('');
 
   // mock
   useEffect(() => {
@@ -43,20 +44,32 @@ export default function RecipesMade() {
     setDoneRecipes(doneRecipesFromLocalStorage);
   }, []);
 
+  const handleClick = (e) => {
+    setType(e.target.value);
+  };
+
   return (
     <>
       <Header title={ title } />
       <fieldset>
-        <button type="button">All</button>
-        <button type="button">Food</button>
-        <button type="button">Drinks</button>
+        <button type="button" value="" onClick={ handleClick }>
+          All
+        </button>
+        <button type="button" value="comida" onClick={ handleClick }>
+          Food
+        </button>
+        <button type="button" value="bebida" onClick={ handleClick }>
+          Drinks
+        </button>
       </fieldset>
       <main>
         {doneRecipes
-          && doneRecipes.map((recipe) => {
-            const { id, name } = recipe;
-            return <div key={ id }>{name}</div>;
-          })}
+          && doneRecipes
+            .filter((recipe) => recipe.type.includes(type))
+            .map((recipe) => {
+              const { id, name } = recipe;
+              return <div key={ id }>{name}</div>;
+            })}
       </main>
     </>
   );
