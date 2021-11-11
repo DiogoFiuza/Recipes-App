@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import shareIcon from '../images/shareIcon.svg';
 import Header from '../components/Header';
 
 const mockDoneRecipes = [
@@ -48,6 +50,12 @@ export default function RecipesMade() {
     setType(e.target.value);
   };
 
+  // Copiar informação para a área de transferência, src: https://stackoverflow.com/a/52033479
+  const copyToClipboard = (recipeType, id) => {
+    const path = `http://localhost:3000/${recipeType}s/${id}`;
+    navigator.clipboard.writeText(path);
+  };
+
   return (
     <>
       <Header title={ title } />
@@ -67,8 +75,44 @@ export default function RecipesMade() {
           && doneRecipes
             .filter((recipe) => recipe.type.includes(type))
             .map((recipe) => {
-              const { id, name } = recipe;
-              return <div key={ id }>{name}</div>;
+              const {
+                id,
+                area,
+                category,
+                alcoholicOrNot,
+                name,
+                image,
+                doneDate,
+                tags,
+              } = recipe;
+              return (
+                <div key={ id }>
+                  <Link to={ `/${recipe.type}s/${id}` }>
+                    <img
+                      src={ image }
+                      alt="Imagem meramente ilustrativa da receita"
+                      width="64px"
+                    />
+                    <p>{name}</p>
+                  </Link>
+                  {recipe.type === 'comida' && <p>{`${area} - ${category}`}</p>}
+                  {recipe.type === 'bebida' && <p>{alcoholicOrNot}</p>}
+                  <p>{`Feita em: ${doneDate}`}</p>
+                  <p>
+                    {tags.map((tag) => (
+                      <button type="button" key={ tag }>
+                        {tag}
+                      </button>
+                    ))}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={ () => copyToClipboard(recipe.type, id) }
+                  >
+                    <img src={ shareIcon } alt="ícone de compartilhar" />
+                  </button>
+                </div>
+              );
             })}
       </main>
     </>
