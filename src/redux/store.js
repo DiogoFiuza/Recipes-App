@@ -14,7 +14,7 @@ const store = configureStore({
     foodRecipes: foodRecipesReducer,
     drinkRecipes: drinkRecipesReducer,
     recipeCategories: recipeCategoriesReducer,
-    surpiseRecipe: surpriseRecipeReducer,
+    surpriseRecipe: surpriseRecipeReducer,
     ingredientsList: ingredientListReducer,
     ingredientsListDrink: ingredientListDrinkReducer,
     areaFoodList: areaFoodListReducer,

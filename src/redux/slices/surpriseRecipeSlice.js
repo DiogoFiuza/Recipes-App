@@ -19,7 +19,7 @@ export const surpiseRecipeSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchSurprise.fulfilled, (state, action) => {
-        state.surpriseApi = action.payload;
+        state.surpriseApi = action.payload.meals;
       });
   },
 

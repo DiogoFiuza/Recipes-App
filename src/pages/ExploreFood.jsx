@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
+import { fetchSurprise } from '../redux/slices/surpriseRecipeSlice';
+
 export default function ExploreFood() {
   const title = 'Explorar Comidas';
-
+  const dispatch = useDispatch();
+  const { surpriseApi } = useSelector((store) => store.surpriseRecipe);
+  useEffect(() => {
+    dispatch(fetchSurprise());
+  }, []);
   return (
     <>
       <Header title={ title } />
@@ -26,14 +33,18 @@ export default function ExploreFood() {
           Por Local de Origem
         </button>
       </Link>
-      <Link to="/">
-        <button
-          type="button"
-          data-testid="explore-surprise"
-        >
-          Me Surpreenda!
-        </button>
-      </Link>
+      {
+        surpriseApi.map((id, index) => (
+          <Link key={ index } to={ `/explorar/comidas/${id.idMeal}` }>
+            <button
+              type="button"
+              data-testid="explore-surprise"
+            >
+              Me Surpreenda!
+            </button>
+          </Link>
+        ))
+      }
       ;
       <Footer />
     </>

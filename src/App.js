@@ -24,10 +24,12 @@ function App() {
   return (
     <Switch>
       <Route
+        exact
         path="/explorar/comidas/ingredientes"
         component={ ExploreFoodsByIngredients }
       />
       <Route
+        exact
         path="/explorar/bebidas/ingredientes"
         component={ ExploreDrinksByIngredients }
       />
