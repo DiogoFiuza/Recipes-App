@@ -34,10 +34,10 @@ export default function RecipesMade() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [type, setType] = useState('');
 
-  // mock
-  useEffect(() => {
-    localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipes));
-  }, []);
+  // // mock
+  // useEffect(() => {
+  //   localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipes));
+  // }, []);
 
   useEffect(() => {
     const doneRecipesFromLocalStorage = JSON.parse(
@@ -60,13 +60,28 @@ export default function RecipesMade() {
     <>
       <Header title={ title } />
       <fieldset>
-        <button type="button" value="" onClick={ handleClick }>
+        <button
+          data-testid="filter-by-all-btn"
+          type="button"
+          value=""
+          onClick={ handleClick }
+        >
           All
         </button>
-        <button type="button" value="comida" onClick={ handleClick }>
+        <button
+          data-testid="filter-by-food-btn"
+          type="button"
+          value="comida"
+          onClick={ handleClick }
+        >
           Food
         </button>
-        <button type="button" value="bebida" onClick={ handleClick }>
+        <button
+          data-testid="filter-by-drink-btn"
+          type="button"
+          value="bebida"
+          onClick={ handleClick }
+        >
           Drinks
         </button>
       </fieldset>
@@ -74,7 +89,7 @@ export default function RecipesMade() {
         {doneRecipes
           && doneRecipes
             .filter((recipe) => recipe.type.includes(type))
-            .map((recipe) => {
+            .map((recipe, index) => {
               const {
                 id,
                 area,
@@ -89,18 +104,28 @@ export default function RecipesMade() {
                 <div key={ id }>
                   <Link to={ `/${recipe.type}s/${id}` }>
                     <img
+                      data-testid={ `${index}-horizontal-image` }
                       src={ image }
                       alt="Imagem meramente ilustrativa da receita"
                       width="64px"
                     />
-                    <p>{name}</p>
+                    <p data-testid={ `${index}-horizontal-name` }>{name}</p>
                   </Link>
-                  {recipe.type === 'comida' && <p>{`${area} - ${category}`}</p>}
-                  {recipe.type === 'bebida' && <p>{alcoholicOrNot}</p>}
-                  <p>{`Feita em: ${doneDate}`}</p>
+                  <p data-testid={ `${index}-horizontal-top-text` }>
+                    {recipe.type === 'comida'
+                      ? `${area} - ${category}`
+                      : alcoholicOrNot}
+                  </p>
+                  <p data-testid={ `${index}-horizontal-done-date` }>
+                    {`Feita em: ${doneDate}`}
+                  </p>
                   <p>
                     {tags.map((tag) => (
-                      <button type="button" key={ tag }>
+                      <button
+                        data-testid={ `${index}-${tag}-horizontal-tag` }
+                        type="button"
+                        key={ tag }
+                      >
                         {tag}
                       </button>
                     ))}
@@ -109,7 +134,11 @@ export default function RecipesMade() {
                     type="button"
                     onClick={ () => copyToClipboard(recipe.type, id) }
                   >
-                    <img src={ shareIcon } alt="ícone de compartilhar" />
+                    <img
+                      data-testid={ `${index}-horizontal-share-btn` }
+                      src={ shareIcon }
+                      alt="ícone de compartilhar"
+                    />
                   </button>
                 </div>
               );
