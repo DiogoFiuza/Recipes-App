@@ -1,15 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
-import { callFunctionTrueArea, fetchAreas, fetchFoodByArea, setArea } from '../redux/slices/areaFoodListSlice';
+import {
+  callFunctionTrueArea,
+  fetchAreas, fetchFoodByArea } from '../redux/slices/areaFoodListSlice';
 import { setOption, setQuery } from '../redux/slices/searchBarSlice';
-
-const container = {
-  width: '100%',
-};
 
 export default function ExploreFoodsByOrigin() {
   const title = 'Explorar Origem';
@@ -29,9 +28,9 @@ export default function ExploreFoodsByOrigin() {
     dispatch(setOption('origin'));
     dispatch(callFunctionTrueArea());
   };
+  console.log(handleClick);
 
   const handleChange = (area) => {
-    console.log(area);
     dispatch(fetchFoodByArea(area));
   };
 
@@ -55,13 +54,13 @@ export default function ExploreFoodsByOrigin() {
 
           </option>
         ))}
+        <option data-testid="All-option">All</option>
       </select>
       {foodForArea.map((element, index) => (
         <Link
           key={ index }
           to={ `/comidas/${element.idMeal}` }
           data-testid={ `${index}-recipe-card` }
-          style={ container }
         >
           <div key={ index }>
             <img

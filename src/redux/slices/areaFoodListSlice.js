@@ -19,7 +19,13 @@ export const fetchAreas = createAsyncThunk(
 export const fetchFoodByArea = createAsyncThunk(
   'areasFoods/fetchFoodByArea',
   async (area) => {
-    const responseFoods = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`);
+    let responseFoods = [];
+    if (area === 'All') {
+      responseFoods = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    } else {
+      responseFoods = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`);
+    }
+
     return responseFoods.json();
   },
 );
