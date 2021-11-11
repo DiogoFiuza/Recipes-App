@@ -3,6 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const initialState = {
   initialMeals: [],
   meals: [],
+  mealDetail: [],
+  suggestedMeals: [],
 };
 
 export const fetchMeals = createAsyncThunk(
@@ -33,10 +35,27 @@ export const fetchMeals = createAsyncThunk(
   },
 );
 
+export const fetchFoodById = createAsyncThunk(
+  'foodRecipes/fetchFoodById',
+  async (id) => {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    return response.json();
+  },
+);
+
 export const fetchMealsByCategory = createAsyncThunk(
   'foodRecipes/fetchMealsByCategory',
   async (category) => {
     const data = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+    const response = await data.json();
+    return response;
+  },
+);
+
+export const fecthSuggestedMeals = createAsyncThunk(
+  'foodRecipes/fecthSuggestedMeals',
+  async () => {
+    const data = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const response = await data.json();
     return response;
   },
@@ -65,6 +84,14 @@ export const foodRecipesSlice = createSlice({
       })
       .addCase(fetchMealsByCategory.fulfilled, (state, action) => {
         state.meals = action.payload.meals;
+      })
+      .addCase(fetchFoodById.fulfilled, (state, action) => {
+        state.mealDetail = action.payload.meals;
+      })
+      .addCase(fecthSuggestedMeals.fulfilled, (state, action) => {
+        const SIX = 6;
+        const sixSuggestedMeals = action.payload.meals.slice(0, SIX);
+        state.suggestedMeals = sixSuggestedMeals;
       });
   },
 });

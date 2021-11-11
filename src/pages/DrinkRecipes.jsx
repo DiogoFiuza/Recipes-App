@@ -20,8 +20,9 @@ export default function DrinkRecipes() {
   const { query, option } = useSelector((store) => store.searchBar);
   const { drinks, initialDrinks } = useSelector((store) => store.drinkRecipes);
   const [submitted, setSubmitted] = useState(false);
-  const { callFunctionDrinks } = useSelector((store) => store.ingredientsListDrink);
-
+  const { callFunctionDrinks } = useSelector(
+    (store) => store.ingredientsListDrink,
+  );
   const [currentCategory, setCurrentCategory] = useState('');
 
   const handleSubmit = () => {
@@ -50,11 +51,13 @@ export default function DrinkRecipes() {
   const renderDrinkCards = () => {
     const MAX_LENGTH = 12;
     const filteredDrinks = drinks.slice(0, MAX_LENGTH);
+    console.log(filteredDrinks);
     return (
       <section>
-        {filteredDrinks.map((drink, index) => (
-          <DrinkRecipeCard key={ drink.idDrink } index={ index } drink={ drink } />
-        ))}
+        {filteredDrinks
+          && filteredDrinks.map((drink, index) => (
+            <DrinkRecipeCard key={ drink.idDrink } index={ index } drink={ drink } />
+          ))}
       </section>
     );
   };
@@ -67,7 +70,9 @@ export default function DrinkRecipes() {
       const response = await baseDrinks.json();
       dispatch(populateDrinks(response.drinks));
     };
-    if (callFunctionDrinks === true) { handleSubmit(); } else {
+    if (callFunctionDrinks === true) {
+      handleSubmit();
+    } else {
       fetchBaseDrinks();
     }
   }, []);

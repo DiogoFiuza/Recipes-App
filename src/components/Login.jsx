@@ -68,7 +68,7 @@ export default function Login() {
 
         <button
           type="button"
-          onClick={ () => global.alert('Me passa um pix que resolvo') }
+          onClick={ handleSubmit }
           className="input box especialButton "
         >
           Estou com problemas para acessar

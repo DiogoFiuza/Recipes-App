@@ -21,7 +21,6 @@ export default function FoodRecipes() {
   const { meals, initialMeals } = useSelector((store) => store.foodRecipes);
   const [submitted, setSubmitted] = useState(false);
   const { callFunction } = useSelector((store) => store.ingredientsList);
-
   const [currentCategory, setCurrentCategory] = useState('All');
 
   const handleSubmit = () => {

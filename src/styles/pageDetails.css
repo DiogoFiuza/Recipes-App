@@ -1,0 +1,114 @@
+.body {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  padding: 0;
+}
+
+.food-img {
+  box-shadow: rgba(0, 0, 0, 0.212) 0 0 5px;
+  top: 0;
+  width: 100%;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.title {
+  margin-left: 10px;
+}
+
+.buttons {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-around;
+  min-width: 100px;
+}
+
+.ingredients {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.212) 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 20px;
+  width: 100%;
+}
+
+.text-ingredientes {
+  align-self: center;
+}
+
+.values-ingredients {
+  margin-left: 25px;
+  margin-top: 25px;
+}
+
+.instructions {
+  align-items: center;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.212) 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.text-instructions {
+  margin-top: 25px;
+}
+
+.line {
+  align-self: center;
+  background-color: rgba(0, 0, 0, 0.569);
+  height: 1px;
+  width: 90%;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  overflow-x: auto;
+  text-align: center;
+  width: 100%;
+}
+
+.card {
+  align-items: center;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.212) 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 160px;
+}
+
+.image-item {
+  width: 100%;
+}
+
+.start {
+  background-color: rgb(248, 101, 101);
+  border-style: none;
+  bottom: 0;
+  color: white;
+  height: 50px;
+  position: fixed;
+  width: 360px;
+}
+

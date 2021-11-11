@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import '../styles/pageDetails.css';
 import { Link } from 'react-router-dom';
 
 export default function MealRecipeCard({ meal, index }) {

@@ -13,7 +13,6 @@ p {
   margin-bottom: 0;
 }
 
-
 .input {
   border: none;
   border-radius: 5px;
@@ -23,7 +22,6 @@ p {
   outline: none;
   padding-left: 20px;
 }
-
 
 .submitForm [ disabled ], .submitForm:disabled {
   background-color: rgb(180, 180, 180);
