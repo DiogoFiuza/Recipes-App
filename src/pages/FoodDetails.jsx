@@ -6,6 +6,8 @@ import { fetchFoodById } from '../redux/slices/foodRecipesSlice';
 import { fetchDrinksRecommended } from '../redux/slices/drinkRecipesSlice';
 import '../styles/pageDetails.css';
 
+const copy = require('clipboard-copy');
+
 export default function FoodDetails() {
   const history = useHistory();
   const path = history.location.pathname;
@@ -14,6 +16,7 @@ export default function FoodDetails() {
   const { mealDetail } = useSelector((store) => store.foodRecipes);
   const { suggestedDrink } = useSelector((store) => store.drinkRecipes);
   const [buttonName, setButtonName] = useState('Start');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     dispatch(fetchFoodById(index));
@@ -50,6 +53,11 @@ export default function FoodDetails() {
     history.push(`/comidas/${index}/in-progress`);
   };
 
+  const share = () => {
+    copy(`http://localhost:3000/comidas/${index}`);
+    setCopied(true);
+  };
+
   return (
     <>
       FoodDetail
@@ -63,7 +71,14 @@ export default function FoodDetails() {
           />
           <h2 data-testid="recipe-title">{ meal.strMeal}</h2>
           <p data-testid="recipe-category">{meal.strCategory}</p>
-          <button type="button" data-testid="share-btn">Compartilhar</button>
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ () => share() }
+          >
+            Compartilhar
+          </button>
+          { copied && <p>Link copiado!</p> }
           <button type="button" data-testid="favorite-btn">Favoritar</button>
           <div data-testid={ `${index}-ingredient-name-and-measure` }>
             <h3>Ingredientes</h3>

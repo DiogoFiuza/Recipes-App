@@ -6,6 +6,8 @@ import { fetchDrinkById } from '../redux/slices/drinkRecipesSlice';
 import { fecthSuggestedMeals } from '../redux/slices/foodRecipesSlice';
 import '../styles/pageDetails.css';
 
+const copy = require('clipboard-copy');
+
 export default function DrinkDetails() {
   const history = useHistory();
   const path = history.location.pathname;
@@ -13,9 +15,26 @@ export default function DrinkDetails() {
   const dispatch = useDispatch();
   const { drinkDetail } = useSelector((store) => store.drinkRecipes);
   const { suggestedMeals } = useSelector((store) => store.foodRecipes);
-  const [buttonName, setButtonName] = useState('Start');
+
+  // Requisito 40
+  const haveInLocalStorage = JSON.parse(localStorage.getItem('cocktailsInProgress'));
+  if (haveInLocalStorage === null) {
+    localStorage.setItem('cocktailsInProgress', JSON.stringify([]));
+    // const cocktails = JSON.parse(localStorage.getItem('cocktailsInProgress'));
+    // cocktails.push({ [index]: 'Start' });
+    // localStorage.setItem('cocktailsInProgress', JSON.stringify(cocktails));
+  }
+  const [buttonName, setButtonName] = useState();
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    // Verifica se já existe essa bebida no localStorage
+    // const cocktails = JSON.parse(localStorage.getItem('cocktailsInProgress'));
+    // if (!cocktails.includes(index)) {
+    //   cocktails.push({ [index]: 'Start' });
+    //   localStorage.setItem('cocktailsInProgress', JSON.stringify(cocktails));
+    //   console.log(cocktails);
+    // }
     dispatch(fetchDrinkById(index));
     dispatch(fecthSuggestedMeals());
   }, []);
@@ -44,7 +63,12 @@ export default function DrinkDetails() {
     } else {
       setButtonName('Start');
     }
-    // history.push(`/bebidas/${index}/in-progress`);
+    history.push(`/bebidas/${index}/in-progress`);
+  };
+
+  const share = () => {
+    copy(`http://localhost:3000/bebidas/${index}`);
+    setCopied(true);
   };
 
   return (
@@ -61,9 +85,14 @@ export default function DrinkDetails() {
             />
             <h3 data-testid="recipe-title">{drink.strDrink}</h3>
             <p data-testid="recipe-category">{drink.strAlcoholic}</p>
-            <button type="button" data-testid="share-btn">
+            <button
+              onClick={ () => share() }
+              type="button"
+              data-testid="share-btn"
+            >
               Compartilhar
             </button>
+            { copied && <p>Link copiado!</p> }
             <button type="button" data-testid="favorite-btn">
               Favoritar
             </button>
