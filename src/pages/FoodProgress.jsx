@@ -39,7 +39,6 @@ export default function FoodProgress() {
 
   return (
     <>
-      {console.log(mealDetail)}
       {mealDetail.map((meal) => (
         <div key={ meal.idMeal }>
           <img src={ meal.strMealThumb } alt={ meal.idMeal } data-testid="recipe-photo" />
