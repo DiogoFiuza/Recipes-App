@@ -42,7 +42,7 @@ export default function FoodDetails() {
 
   return (
     <>
-      FoodDetail
+      {console.log(index)}
       { mealDetail && mealDetail.map((meal) => (
         <div key={ meal }>
           <img
