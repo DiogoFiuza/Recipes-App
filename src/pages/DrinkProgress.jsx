@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,13 +24,26 @@ export default function DrinkProgress() {
       }
     }
 
+    const a = ({ target }) => {
+      const filho = document.querySelector(`.id${target.id}`);
+      if (target.checked === true) {
+        filho.style.textDecoration = 'line-through solid rgb(0, 0, 0)';
+      } else {
+        filho.style.textDecoration = 'none solid rgb(0, 0, 0)';
+      }
+    };
+
     return ingredients.map(({ ingredient, value }, i) => (
-      <p
-        data-testid={ `${index}-ingredient-step` }
+      <div
         key={ i }
+        className={ `id${i}` }
+        data-testid={ `${index}-ingredient-step` }
       >
-        {`${ingredient} - ${value}`}
-      </p>));
+        <input type="checkbox" onChange={ a } id={ i } />
+        <p>
+          {`${ingredient} - ${value}`}
+        </p>
+      </div>));
   };
 
   useEffect(() => {
