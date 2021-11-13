@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { fetchFoodById } from '../redux/slices/foodRecipesSlice';
+import '../styles/pageProgress.css';
 
 export default function FoodProgress() {
   const history = useHistory();
@@ -53,7 +54,7 @@ export default function FoodProgress() {
   return (
     <>
       {mealDetail.map((meal) => (
-        <div key={ meal.idMeal }>
+        <div key={ meal.idMeal } className="body">
           <img src={ meal.strMealThumb } alt={ meal.idMeal } data-testid="recipe-photo" />
           <h2 data-testid="recipe-title">{meal.strMeal}</h2>
           <button type="button" data-testid="share-btn">S</button>
