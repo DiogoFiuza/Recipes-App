@@ -30,13 +30,13 @@ export default function FoodProgress() {
       }
       if (storageLocal === null) {
         localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ cocktails: {
+          JSON.stringify({ meals: {
             [index]: ingredients },
           }));
       } else {
         localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ cocktails: {
-            ...JSON.parse(storageLocal).cocktails,
+          JSON.stringify({ meals: {
+            ...JSON.parse(storageLocal).meals,
             [index]: ingredients },
           }));
       }
@@ -46,9 +46,9 @@ export default function FoodProgress() {
     if (storageLocal == null) {
       createLocalState();
     } else {
-      const idDasComidasNoLocalStorage = Object.keys(JSON.parse(storageLocal).cocktails);
+      const idDasComidasNoLocalStorage = Object.keys(JSON.parse(storageLocal).meals);
       if (idDasComidasNoLocalStorage.find((a) => a === index) === index) {
-        ingredients = JSON.parse(storageLocal).cocktails[index];
+        ingredients = JSON.parse(storageLocal).meals[index];
       } else {
         createLocalState();
       }

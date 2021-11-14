@@ -7,44 +7,65 @@ import '../styles/pageProgress.css';
 
 export default function DrinkProgress() {
   const history = useHistory();
+  const storageLocal = localStorage.getItem('inProgressRecipes');
   const path = history.location.pathname;
   const index = path.split('/')[2];
   const dispatch = useDispatch();
   const { drinkDetail } = useSelector((store) => store.drinkRecipes);
-  const ingredients = [];
+  let ingredients = [];
 
-  const progressIngredient = () => {
-    const obj = drinkDetail[0];
-    const maxLength = 3;
-    for (let i = 1; i <= maxLength; i += 1) {
-      if (obj[`strIngredient${i}`] !== null) {
-        ingredients.push({
-          ingredient: obj[`strIngredient${i}`],
-          value: obj[`strMeasure${i}`],
-        });
+  const verification = () => {
+    const createLocalState = () => {
+      const obj = drinkDetail[0];
+      const maxLength = 3;
+
+      for (let i = 1; i <= maxLength; i += 1) {
+        if (obj[`strIngredient${i}`] !== '') {
+          ingredients.push({
+            ingredient: obj[`strIngredient${i}`],
+            value: obj[`strMeasure${i}`],
+          });
+        }
       }
-    }
-
-    const a = ({ target }) => {
-      const filho = document.querySelector(`.id${target.id}`);
-      if (target.checked === true) {
-        filho.style.textDecoration = 'line-through solid rgb(0, 0, 0)';
+      if (storageLocal === null) {
+        localStorage.setItem('inProgressRecipes',
+          JSON.stringify({ cocktails: {
+            [index]: ingredients },
+          }));
       } else {
-        filho.style.textDecoration = 'none solid rgb(0, 0, 0)';
+        localStorage.setItem('inProgressRecipes',
+          JSON.stringify({ cocktails: {
+            ...JSON.parse(storageLocal).cocktails,
+            [index]: ingredients },
+          }));
       }
     };
 
-    return ingredients.map(({ ingredient, value }, i) => (
-      <div
-        key={ i }
-        className={ `id${i}` }
-        data-testid={ `${index}-ingredient-step` }
-      >
-        <input type="checkbox" onChange={ a } id={ i } />
-        <p>
-          {`${ingredient} - ${value}`}
-        </p>
-      </div>));
+    if (storageLocal == null) {
+      createLocalState();
+    } else {
+      const idDasComidasNoLocalStorage = Object.keys(JSON.parse(storageLocal).cocktails);
+      if (idDasComidasNoLocalStorage.find((a) => a === index) === index) {
+        ingredients = JSON.parse(storageLocal).cocktails[index];
+      } else {
+        createLocalState();
+      }
+    }
+
+    return (
+      ingredients.map(({ ingredient, value }, i) => (
+        <div
+          key={ i }
+          className={ `id${i}` }
+          data-testid={ `${index}-ingredient-step` }
+        >
+          <input type="checkbox" id={ i } />
+          <p>
+            {`${ingredient} - ${value}`}
+          </p>
+        </div>
+      ))
+    );
   };
 
   useEffect(() => {
@@ -65,7 +86,7 @@ export default function DrinkProgress() {
           <button type="button" data-testid="favorite-btn">L</button>
           <p data-testid="recipe-category">{drinks.strAlcoholic}</p>
           <ul>
-            {progressIngredient()}
+            {verification()}
           </ul>
           <h3>Istruções</h3>
           <p data-testid="instructions">{drinks.strInstructions}</p>
