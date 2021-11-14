@@ -13,7 +13,6 @@ export default function FoodProgress() {
   const index = path.split('/')[2];
   const dispatch = useDispatch();
   let ingredients = [];
-  // const [checklist, SetChelist] = useState([]);
 
   const verification = () => {
     const createLocalState = () => {
@@ -35,15 +34,16 @@ export default function FoodProgress() {
           }));
       } else {
         localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ meals: {
-            ...JSON.parse(storageLocal).meals,
-            [index]: ingredients },
+          JSON.stringify({ ...JSON.parse(storageLocal),
+            meals: {
+              ...JSON.parse(storageLocal).meals,
+              [index]: ingredients },
           }));
       }
       // SetChelist(ingredients);
     };
 
-    if (storageLocal == null) {
+    if (storageLocal === null || JSON.parse(storageLocal).meals == null) {
       createLocalState();
     } else {
       const idDasComidasNoLocalStorage = Object.keys(JSON.parse(storageLocal).meals);

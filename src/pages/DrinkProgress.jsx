@@ -34,18 +34,19 @@ export default function DrinkProgress() {
           }));
       } else {
         localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ cocktails: {
-            ...JSON.parse(storageLocal).cocktails,
-            [index]: ingredients },
+          JSON.stringify({ ...JSON.parse(storageLocal),
+            cocktails: {
+              ...JSON.parse(storageLocal).cocktails,
+              [index]: ingredients },
           }));
       }
     };
 
-    if (storageLocal == null) {
+    if (storageLocal === null || JSON.parse(storageLocal).cocktails == null) {
       createLocalState();
     } else {
-      const idDasComidasNoLocalStorage = Object.keys(JSON.parse(storageLocal).cocktails);
-      if (idDasComidasNoLocalStorage.find((a) => a === index) === index) {
+      const idDasBebidasNoLocalStorage = Object.keys(JSON.parse(storageLocal).cocktails);
+      if (idDasBebidasNoLocalStorage.find((a) => a === index) === index) {
         ingredients = JSON.parse(storageLocal).cocktails[index];
       } else {
         createLocalState();
