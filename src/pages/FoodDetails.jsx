@@ -15,8 +15,11 @@ export default function FoodDetails() {
   const dispatch = useDispatch();
   const { mealDetail } = useSelector((store) => store.foodRecipes);
   const { suggestedDrink } = useSelector((store) => store.drinkRecipes);
-  const [buttonName, setButtonName] = useState('Start');
   const [copied, setCopied] = useState(false);
+
+  // Requisito 40
+  const storage = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+  const showButton = Object.keys(storage).length > 0 && storage.meals[index];
 
   useEffect(() => {
     dispatch(fetchFoodById(index));
@@ -45,11 +48,6 @@ export default function FoodDetails() {
   };
 
   const handleClick = () => {
-    if (buttonName === 'Start') {
-      setButtonName('Continuar Receita');
-    } else {
-      setButtonName('Start');
-    }
     history.push(`/comidas/${index}/in-progress`);
   };
 
@@ -114,7 +112,7 @@ export default function FoodDetails() {
             type="button"
             data-testid="start-recipe-btn"
           >
-            { buttonName }
+            {showButton ? 'Continuar Receita' : 'Iniciar Receita'}
           </button>
         </div>
       ))}

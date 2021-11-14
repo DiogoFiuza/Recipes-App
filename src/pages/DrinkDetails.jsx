@@ -17,24 +17,12 @@ export default function DrinkDetails() {
   const { suggestedMeals } = useSelector((store) => store.foodRecipes);
 
   // Requisito 40
-  const haveInLocalStorage = JSON.parse(localStorage.getItem('cocktailsInProgress'));
-  if (haveInLocalStorage === null) {
-    localStorage.setItem('cocktailsInProgress', JSON.stringify([]));
-    // const cocktails = JSON.parse(localStorage.getItem('cocktailsInProgress'));
-    // cocktails.push({ [index]: 'Start' });
-    // localStorage.setItem('cocktailsInProgress', JSON.stringify(cocktails));
-  }
-  const [buttonName, setButtonName] = useState();
+  const storage = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+  console.log(storage);
+  const showButton = Object.keys(storage).length > 0 && storage.cocktails[index];
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    // Verifica se já existe essa bebida no localStorage
-    // const cocktails = JSON.parse(localStorage.getItem('cocktailsInProgress'));
-    // if (!cocktails.includes(index)) {
-    //   cocktails.push({ [index]: 'Start' });
-    //   localStorage.setItem('cocktailsInProgress', JSON.stringify(cocktails));
-    //   console.log(cocktails);
-    // }
     dispatch(fetchDrinkById(index));
     dispatch(fecthSuggestedMeals());
   }, []);
@@ -58,11 +46,6 @@ export default function DrinkDetails() {
   };
 
   const handleClick = () => {
-    if (buttonName === 'Start') {
-      setButtonName('Continuar Receita');
-    } else {
-      setButtonName('Start');
-    }
     history.push(`/bebidas/${index}/in-progress`);
   };
 
@@ -120,9 +103,8 @@ export default function DrinkDetails() {
               className="star-btn"
               type="button"
               data-testid="start-recipe-btn"
-              value={ buttonName }
             >
-              { buttonName }
+              {showButton ? 'Continuar Receita' : 'Iniciar Receita'}
             </button>
           </div>
         ))}
