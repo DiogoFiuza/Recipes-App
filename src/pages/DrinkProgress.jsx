@@ -14,34 +14,46 @@ export default function DrinkProgress() {
   const { drinkDetail } = useSelector((store) => store.drinkRecipes);
   let ingredients = [];
 
-  const verification = () => {
-    const createLocalState = () => {
-      const obj = drinkDetail[0];
-      const maxLength = 3;
-
-      for (let i = 1; i <= maxLength; i += 1) {
-        if (obj[`strIngredient${i}`] !== '') {
-          ingredients.push({
-            ingredient: obj[`strIngredient${i}`],
-            value: obj[`strMeasure${i}`],
-          });
-        }
-      }
-      if (storageLocal === null) {
-        localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ cocktails: {
+  const setLocalState = () => {
+    if (storageLocal === null) {
+      localStorage.setItem('inProgressRecipes',
+        JSON.stringify({ cocktails: {
+          [index]: ingredients },
+        }));
+    } else {
+      localStorage.setItem('inProgressRecipes',
+        JSON.stringify({ ...JSON.parse(storageLocal),
+          cocktails: {
+            ...JSON.parse(storageLocal).cocktails,
             [index]: ingredients },
-          }));
-      } else {
-        localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ ...JSON.parse(storageLocal),
-            cocktails: {
-              ...JSON.parse(storageLocal).cocktails,
-              [index]: ingredients },
-          }));
-      }
-    };
+        }));
+    }
+  };
 
+  const createLocalState = () => {
+    const obj = drinkDetail[0];
+    const maxLength = 3;
+    for (let i = 1; i <= maxLength; i += 1) {
+      if (obj[`strIngredient${i}`] !== '') {
+        ingredients.push({
+          ingredient: obj[`strIngredient${i}`],
+          value: obj[`strMeasure${i}`],
+          completed: false,
+        });
+      }
+    }
+    setLocalState();
+  };
+
+  const saveProgress = ({ target }) => {
+    const box = document.getElementById(target.id);
+    const arrayObjetos = ingredients;
+    arrayObjetos[target.id].completed = box.checked;
+    ingredients = arrayObjetos;
+    setLocalState();
+  };
+
+  const verification = () => {
     if (storageLocal === null || JSON.parse(storageLocal).cocktails == null) {
       createLocalState();
     } else {
@@ -52,15 +64,24 @@ export default function DrinkProgress() {
         createLocalState();
       }
     }
+  };
+
+  const checklist = () => {
+    verification();
 
     return (
-      ingredients.map(({ ingredient, value }, i) => (
+      ingredients.map(({ ingredient, value, completed }, i) => (
         <div
           key={ i }
           className={ `id${i}` }
-          data-testid={ `${index}-ingredient-step` }
+          data-testid={ `${i}-ingredient-step` }
         >
-          <input type="checkbox" id={ i } />
+          <input
+            type="checkbox"
+            id={ i }
+            onChange={ saveProgress }
+            checked={ completed }
+          />
           <p>
             {`${ingredient} - ${value}`}
           </p>
@@ -87,7 +108,7 @@ export default function DrinkProgress() {
           <button type="button" data-testid="favorite-btn">L</button>
           <p data-testid="recipe-category">{drinks.strAlcoholic}</p>
           <ul>
-            {verification()}
+            {checklist()}
           </ul>
           <h3>Istruções</h3>
           <p data-testid="instructions">{drinks.strInstructions}</p>

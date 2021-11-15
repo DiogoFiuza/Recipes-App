@@ -14,54 +14,72 @@ export default function FoodProgress() {
   const dispatch = useDispatch();
   let ingredients = [];
 
-  const verification = () => {
-    const createLocalState = () => {
-      const obj = mealDetail[0];
-      const maxLength = 8;
-
-      for (let i = 1; i <= maxLength; i += 1) {
-        if (obj[`strIngredient${i}`] !== '') {
-          ingredients.push({
-            ingredient: obj[`strIngredient${i}`],
-            value: obj[`strMeasure${i}`],
-          });
-        }
-      }
-      if (storageLocal === null) {
-        localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ meals: {
-            [index]: ingredients },
-          }));
-      } else {
-        localStorage.setItem('inProgressRecipes',
-          JSON.stringify({ ...JSON.parse(storageLocal),
-            meals: {
-              ...JSON.parse(storageLocal).meals,
-              [index]: ingredients },
-          }));
-      }
-      // SetChelist(ingredients);
-    };
-
-    if (storageLocal === null || JSON.parse(storageLocal).meals == null) {
-      createLocalState();
+  const setLocalState = () => {
+    if (storageLocal === null) {
+      localStorage.setItem('inProgressRecipes',
+        JSON.stringify({ meals: {
+          [index]: ingredients },
+        }));
     } else {
-      const idDasComidasNoLocalStorage = Object.keys(JSON.parse(storageLocal).meals);
-      if (idDasComidasNoLocalStorage.find((a) => a === index) === index) {
-        ingredients = JSON.parse(storageLocal).meals[index];
-      } else {
-        createLocalState();
+      localStorage.setItem('inProgressRecipes',
+        JSON.stringify({ ...JSON.parse(storageLocal),
+          meals: {
+            ...JSON.parse(storageLocal).meals,
+            [index]: ingredients },
+        }));
+    }
+  };
+
+  const createLocalState = () => {
+    const obj = mealDetail[0];
+    const maxLength = 8;
+    for (let i = 1; i <= maxLength; i += 1) {
+      if (obj[`strIngredient${i}`] !== '') {
+        ingredients.push({
+          ingredient: obj[`strIngredient${i}`],
+          value: obj[`strMeasure${i}`],
+          completed: false,
+        });
       }
     }
+    setLocalState();
+  };
+
+  const saveProgress = ({ target }) => {
+    const box = document.getElementById(target.id);
+    const arrayObjetos = ingredients;
+    arrayObjetos[target.id].completed = box.checked;
+    ingredients = arrayObjetos;
+    setLocalState();
+  };
+
+  const verification = () => {
+    if (storageLocal === null || JSON.parse(storageLocal).meals == null) {
+      createLocalState();
+    } else if (Object.keys(JSON.parse(storageLocal).meals)
+      .find((a) => a === index) === index) {
+      ingredients = JSON.parse(storageLocal).meals[index];
+    } else {
+      createLocalState();
+    }
+  };
+
+  const checklist = () => {
+    verification();
 
     return (
-      ingredients.map(({ ingredient, value }, i) => (
+      ingredients.map(({ ingredient, value, completed }, i) => (
         <div
           key={ i }
           className={ `id${i}` }
-          data-testid={ `${index}-ingredient-step` }
+          data-testid={ `${i}-ingredient-step` }
         >
-          <input type="checkbox" id={ i } />
+          <input
+            type="checkbox"
+            id={ i }
+            onChange={ saveProgress }
+            checked={ completed }
+          />
           <p>
             {`${ingredient} - ${value}`}
           </p>
@@ -84,7 +102,7 @@ export default function FoodProgress() {
           <button type="button" data-testid="favorite-btn">L</button>
           <p data-testid="recipe-category">{meal.strCategory}</p>
           <ul>
-            {verification()}
+            {checklist()}
           </ul>
           <h3>Istruções</h3>
           <p data-testid="instructions">{meal.strInstructions}</p>
