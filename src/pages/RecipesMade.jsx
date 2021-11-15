@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import Header from '../components/Header';
 
+const copy = require('clipboard-copy');
+
 const mockDoneRecipes = [
   {
     id: '52898', // idMeal
@@ -53,7 +55,7 @@ export default function RecipesMade() {
   // Copiar informação para a área de transferência, src: https://stackoverflow.com/a/52033479
   const copyToClipboard = (recipeType, id) => {
     const path = `http://localhost:3000/${recipeType}s/${id}`;
-    navigator.clipboard.writeText(path);
+    copy(path);
   };
 
   return (
@@ -131,6 +133,7 @@ export default function RecipesMade() {
                     ))}
                   </p>
                   <button
+                    className="share-button"
                     type="button"
                     onClick={ () => copyToClipboard(recipe.type, id) }
                   >
