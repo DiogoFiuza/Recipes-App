@@ -39,50 +39,51 @@ export default function DrinkDetails() {
 
   return (
     <>
-      {drinkDetail.map((drink) => (
-        <div key={ drink } className="body">
-          <img
-            className="food-img"
-            src={ drink.strDrinkThumb }
-            data-testid="recipe-photo"
-            alt=""
-          />
+      DrinkDteails
+      {drinkDetail
+        && drinkDetail.map((drink) => (
+          <div key={ drink } className="body">
+            <img
+              className="food-img"
+              src={ drink.strDrinkThumb }
+              data-testid="recipe-photo"
+              alt=""
+            />
 
-          <div className="container">
-            <div className="header">
-              <div classNam="title">
-                <h3 data-testid="recipe-title">{ drink.strDrink}</h3>
-                <p data-testid="recipe-category">{drink.strAlcoholic}</p>
+            <div className="container">
+              <div className="header">
+                <div classNam="title">
+                  <h3 data-testid="recipe-title">{drink.strDrink}</h3>
+                  <p data-testid="recipe-category">{drink.strAlcoholic}</p>
+                </div>
+
+                <div className="buttons">
+                  <button type="button" data-testid="share-btn">
+                    S
+                  </button>
+                  <button type="button" data-testid="favorite-btn">
+                    L
+                  </button>
+                </div>
               </div>
 
-              <div className="buttons">
-                <button type="button" data-testid="share-btn">S</button>
-                <button type="button" data-testid="favorite-btn">L</button>
+              <div className="ingredients">
+                <h2>Ingredientes</h2>
+                <div className="line" />
+                <div className="values-ingredients">
+                  {mapIngredients(drink)}
+                </div>
               </div>
-            </div>
 
-            <div className="ingredients">
-              <h2>Ingredientes</h2>
-              <div className="line" />
-              <div className="values-ingredients">
-                { mapIngredients(drink)}
+              <div className="instructions">
+                <h3>Instruções</h3>
+                <div className="line" />
+                <p data-testid="instructions">{drink.strInstructions}</p>
               </div>
-            </div>
 
-            <div className="instructions">
-              <h3>Instruções</h3>
-              <div className="line" />
-              <p data-testid="instructions">{ drink.strInstructions }</p>
-            </div>
-
-            <div className="carousel">
-              {
-                suggestedMeals.map(({ strMeal, strMealThumb }, indice) => (
-                  <div
-                    classNam="item"
-                    key={ strMeal }
-
-                  >
+              <div className="carousel">
+                {suggestedMeals.map(({ strMeal, strMealThumb }, indice) => (
+                  <div classNam="item" key={ strMeal }>
                     <button
                       type="button"
                       data-testid={ `${indice}-recomendation-card` }
@@ -93,23 +94,24 @@ export default function DrinkDetails() {
                         alt={ strMeal }
                         className="image-item"
                       />
-                      <p data-testid={ `${indice}-recomendation-title` }>{strMeal}</p>
+                      <p data-testid={ `${indice}-recomendation-title` }>
+                        {strMeal}
+                      </p>
                     </button>
                   </div>
-                ))
-              }
+                ))}
+              </div>
             </div>
+            <button
+              className="start"
+              type="button"
+              data-testid="start-recipe-btn"
+              onClick={ () => history.push(`/bebidas/${index}/in-progress`) }
+            >
+              Start
+            </button>
           </div>
-          <button
-            className="start"
-            type="button"
-            data-testid="start-recipe-btn"
-            onClick={ () => history.push(`/bebidas/${index}/in-progress`) }
-          >
-            Start
-          </button>
-        </div>
-      ))}
+        ))}
     </>
   );
 }
