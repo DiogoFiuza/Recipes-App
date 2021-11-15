@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { fetchDrinkById } from '../redux/slices/drinkRecipesSlice';
 import { fecthSuggestedMeals } from '../redux/slices/foodRecipesSlice';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../styles/pageDetails.css';
 
 const copy = require('clipboard-copy');
@@ -18,9 +20,15 @@ export default function DrinkDetails() {
 
   // Requisito 40
   const storage = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
-  console.log(storage);
   const showButton = Object.keys(storage).length > 0 && storage.cocktails[index];
+
   const [copied, setCopied] = useState(false);
+
+  // Requisito 43
+  const hasFavoriteInStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) || {};
+  const thisRecipeIsFavorited = hasFavoriteInStorage.length > 0 && hasFavoriteInStorage
+    .some((receita) => receita.id === index);
+  const [srcFavorite] = useState(thisRecipeIsFavorited);
 
   useEffect(() => {
     dispatch(fetchDrinkById(index));
@@ -76,8 +84,15 @@ export default function DrinkDetails() {
               Compartilhar
             </button>
             { copied && <p>Link copiado!</p> }
-            <button type="button" data-testid="favorite-btn">
-              Favoritar
+            <button
+              type="button"
+              src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
+              data-testid="favorite-btn"
+            >
+              <img
+                src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
+                alt=""
+              />
             </button>
             <div data-testid={ `${index}-ingredient-name-and-measure` }>
               <h2>Ingredientes</h2>
