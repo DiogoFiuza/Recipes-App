@@ -122,11 +122,11 @@ export default function FoodProgress() {
           <p data-testid="instructions">{meal.strInstructions}</p>
           <button
             data-testid="finish-recipe-btn"
-            type="button"
             disabled={ block }
+            type="button"
+            onClick={ () => history.push('/receitas-feitas') }
           >
             Finalizar
-
           </button>
         </div>
       ))}

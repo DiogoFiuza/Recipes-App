@@ -126,6 +126,7 @@ export default function DrinkProgress() {
             data-testid="finish-recipe-btn"
             disabled={ block }
             type="button"
+            onClick={ () => history.push('/receitas-feitas') }
           >
             Finalizar
           </button>
