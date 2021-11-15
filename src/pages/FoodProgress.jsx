@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { fetchFoodById } from '../redux/slices/foodRecipesSlice';
@@ -13,6 +13,7 @@ export default function FoodProgress() {
   const index = path.split('/')[2];
   const dispatch = useDispatch();
   let ingredients = [];
+  const [block, desblock] = useState(true);
 
   const setLocalState = () => {
     if (storageLocal === null) {
@@ -45,12 +46,25 @@ export default function FoodProgress() {
     setLocalState();
   };
 
+  const unlock = () => {
+    const xx = ingredients.filter(({ completed }) => completed);
+    const yy = ingredients.length;
+    if (xx.length === yy) {
+      desblock(false);
+    }
+  };
+
   const saveProgress = ({ target }) => {
-    const box = document.getElementById(target.id);
+    // const box = document.getElementById(target.id);
     const arrayObjetos = ingredients;
-    arrayObjetos[target.id].completed = box.checked;
+    if (arrayObjetos[target.id].completed === false) {
+      arrayObjetos[target.id].completed = true;
+    } else {
+      arrayObjetos[target.id].completed = false;
+    }
     ingredients = arrayObjetos;
     setLocalState();
+    unlock();
   };
 
   const verification = () => {
@@ -106,7 +120,14 @@ export default function FoodProgress() {
           </ul>
           <h3>Istruções</h3>
           <p data-testid="instructions">{meal.strInstructions}</p>
-          <button data-testid="finish-recipe-btn" type="button">Finalizar</button>
+          <button
+            data-testid="finish-recipe-btn"
+            type="button"
+            disabled={ block }
+          >
+            Finalizar
+
+          </button>
         </div>
       ))}
     </>

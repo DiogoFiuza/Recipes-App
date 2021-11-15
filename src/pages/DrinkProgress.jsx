@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDrinkById } from '../redux/slices/drinkRecipesSlice';
@@ -13,6 +13,7 @@ export default function DrinkProgress() {
   const dispatch = useDispatch();
   const { drinkDetail } = useSelector((store) => store.drinkRecipes);
   let ingredients = [];
+  const [block, desblock] = useState(true);
 
   const setLocalState = () => {
     if (storageLocal === null) {
@@ -45,12 +46,21 @@ export default function DrinkProgress() {
     setLocalState();
   };
 
+  const unlock = () => {
+    const xx = ingredients.filter(({ completed }) => completed);
+    const yy = ingredients.length;
+    if (xx.length === yy) {
+      desblock(false);
+    }
+  };
+
   const saveProgress = ({ target }) => {
     const box = document.getElementById(target.id);
     const arrayObjetos = ingredients;
     arrayObjetos[target.id].completed = box.checked;
     ingredients = arrayObjetos;
     setLocalState();
+    unlock();
   };
 
   const verification = () => {
@@ -112,7 +122,13 @@ export default function DrinkProgress() {
           </ul>
           <h3>Istruções</h3>
           <p data-testid="instructions">{drinks.strInstructions}</p>
-          <button data-testid="finish-recipe-btn" type="button">Finalizar</button>
+          <button
+            data-testid="finish-recipe-btn"
+            disabled={ block }
+            type="button"
+          >
+            Finalizar
+          </button>
         </div>
       ))}
     </>
