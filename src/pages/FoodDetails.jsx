@@ -44,7 +44,7 @@ export default function FoodDetails() {
     <>
       FoodDetail
       { mealDetail && mealDetail.map((meal) => (
-        <div key={ meal }>
+        <div key={ meal } className="body">
           <img
             className="food-img"
             src={ meal.strMealThumb }

@@ -6,6 +6,7 @@ export default function Login() {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [help, setHelp] = useState('noHelp');
 
   const isLoginValid = () => {
     const MIN_LENGTH = 6;
@@ -15,8 +16,20 @@ export default function Login() {
     return isEmailValid && isPasswordValid;
   };
 
-  const isDisabled = !isLoginValid();
+  const toggleHelp = () => {
+    switch (help) {
+    case 'help':
+      setHelp('noHelp');
+      break;
+    case 'noHelp':
+      setHelp('help');
+      break;
+    default:
+      break;
+    }
+  };
 
+  const isDisabled = !isLoginValid();
   const handleSubmit = () => {
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
@@ -30,7 +43,13 @@ export default function Login() {
   };
 
   return (
-    <form>
+    <form className="">
+      <div className={ help }>
+        <button type="button" onClick={ toggleHelp } className="close">X</button>
+        <div className="clicavel"><p>O botão não é Clicavel</p></div>
+        <div className="registro"><p>Não tenho registo</p></div>
+        <div className="rapido"><p>Quero um meio Rápido</p></div>
+      </div>
       <fieldset className="container">
         <div className="box">
           <p>Email</p>
@@ -68,7 +87,7 @@ export default function Login() {
 
         <button
           type="button"
-          onClick={ handleSubmit }
+          onClick={ toggleHelp }
           className="input box especialButton "
         >
           Estou com problemas para acessar

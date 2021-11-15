@@ -10,10 +10,59 @@
   transform: translateY(-50%);
 }
 
+.close {
+  align-self: flex-end;
+  border-style: none;
+  color: red;
+  outline: none;
+}
+
+.help div {
+  background-color: white;
+  border: solid red 1px;
+  border-radius: 4px;
+  color: red;
+  margin: 15px;
+  padding: 10px;
+}
+
+.cheat {
+  background-color: white;
+  border-style: none;
+  outline: none;
+}
+
+.cheat:focus {
+  outline: none;
+}
+
 .chiquem-logo {
   max-width: 190px;
 }
 
+.clicavel:hover:after {
+  color: black;
+  content: 'Você precisa preencher o Formulário para que o Botão seja liberado';
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+
+.registro:hover:after {
+  color: black;
+  content: 'Não é necessário Registro, apenas o preenchimento do Form';
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
+
+.rapido:hover:after {
+  color: black;
+  content: 'No Pc: De 2 clicks no Logo / no Mobile: Arrasta pra cima';
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+}
 
 .describe {
   color: rgb(75, 75, 75);
@@ -26,3 +75,51 @@
   display: flex;
   flex-direction: column;
 }
+
+.noHelp {
+  background-color: green;
+  position: fixed;
+  visibility: hidden;
+}
+
+.help {
+  align-items: center;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-name: show;
+  background-color: white;
+  border: solid red 1px;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.212) 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  margin: 0 auto;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-45%);
+  width: 90%;
+}
+
+@keyframes show {
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.login {
+  animation-duration: 0.2s;
+  animation-name: logged;
+}
+
+@keyframes logged {
+
+  to {
+    opacity: 0;
+    transform: translateY(-60%);
+  }
+}
+
