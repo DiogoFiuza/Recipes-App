@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { fetchFoodById } from '../redux/slices/foodRecipesSlice';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../styles/pageProgress.css';
+
+const copy = require('clipboard-copy');
 
 export default function FoodProgress() {
   const { mealDetail } = useSelector((store) => store.foodRecipes);
@@ -14,6 +18,12 @@ export default function FoodProgress() {
   const dispatch = useDispatch();
   let ingredients = [];
   const [block, desblock] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const hasFavoriteInStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) || {};
+  const thisRecipeIsFavorited = hasFavoriteInStorage.length > 0
+    && hasFavoriteInStorage.some((receita) => receita.id === index);
+  const [srcFavorite, setSrcFavorite] = useState(thisRecipeIsFavorited);
 
   const setLocalState = () => {
     if (storageLocal === null) {
@@ -31,6 +41,11 @@ export default function FoodProgress() {
     }
   };
 
+  const share = () => {
+    copy(`http://localhost:3000/comidas/${index}`);
+    setCopied(true);
+  };
+
   const createLocalState = () => {
     const obj = mealDetail[0];
     const maxLength = 8;
@@ -46,6 +61,35 @@ export default function FoodProgress() {
     setLocalState();
   };
 
+  const favorite = () => {
+    if (!hasFavoriteInStorage.length > 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    const meal = {
+      id: mealDetail[0].idMeal,
+      type: 'comida',
+      area: mealDetail[0].strArea,
+      category: mealDetail[0].strCategory,
+      alcoholicOrNot: '',
+      name: mealDetail[0].strMeal,
+      image: mealDetail[0].strMealThumb,
+    };
+    const newStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const hasMeal = newStorage.find((food) => food.id === mealDetail[0].idMeal);
+    if (hasMeal) {
+      const removeMeal = newStorage.filter(
+        (food) => food.id !== mealDetail[0].idMeal,
+      );
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeMeal));
+      setSrcFavorite(false);
+    } else {
+      newStorage.push(meal);
+      console.log(newStorage);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newStorage));
+      setSrcFavorite(true);
+    }
+  };
+
   const unlock = () => {
     const xx = ingredients.filter(({ completed }) => completed);
     const yy = ingredients.length;
@@ -55,7 +99,6 @@ export default function FoodProgress() {
   };
 
   const saveProgress = ({ target }) => {
-    // const box = document.getElementById(target.id);
     const arrayObjetos = ingredients;
     if (arrayObjetos[target.id].completed === false) {
       arrayObjetos[target.id].completed = true;
@@ -112,8 +155,25 @@ export default function FoodProgress() {
         <div key={ meal.idMeal } className="body">
           <img src={ meal.strMealThumb } alt={ meal.idMeal } data-testid="recipe-photo" />
           <h2 data-testid="recipe-title">{meal.strMeal}</h2>
-          <button type="button" data-testid="share-btn">S</button>
-          <button type="button" data-testid="favorite-btn">L</button>
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ () => share() }
+          >
+            Compartilhar
+          </button>
+          {copied && <p>Link copiado!</p>}
+          <button
+            onClick={ () => favorite() }
+            type="button"
+            src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
+            data-testid="favorite-btn"
+          >
+            <img
+              src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="favoritesvg"
+            />
+          </button>
           <p data-testid="recipe-category">{meal.strCategory}</p>
           <ul>
             {checklist()}
@@ -133,49 +193,3 @@ export default function FoodProgress() {
     </>
   );
 }
-
-// verifica a chave inProgressRecipes no local storage
-// captura um array das chaves das comidas
-// verifica se a chave exite
-// retorna um bool
-
-// --- quando inicia a pagina ---
-// ....... verifica se tem informacao lo local storage .......
-// olha local storage
-// pega informacoes do local storage
-// subistitui o estados
-
-// === quando atualiza a pagina ===
-// mete informaçao no local storage
-// atualiza com a informacoes novas
-
-// function finder({target:{ value }}) {
-//   return times.filter(({title}) => title.toLowerCase().includes(value.toLowerCase())).map((obj) => obj)
-// }
-
-// localStorage.setItem('inProgressRecipes',
-//   JSON.stringify({ cocktails: { ...JSON.parse(storageLocal).cocktails, 53060: 'substitua' } }));
-
-// const a = ({ target }) => {
-//   const filho = document.querySelector(`.id${target.id}`);
-//   const box = document.getElementById(2);
-
-//   if (target.checked === true) {
-//     filho.style.textDecoration = 'line-through solid rgb(0, 0, 0)';
-//   } else {
-//     filho.style.textDecoration = 'none solid rgb(0, 0, 0)';
-//   }
-// };
-
-// return ingredients.map(({ ingredient, value }, i) => (
-//   <div
-//     key={ i }
-//     className={ `id${i}` }
-//     data-testid={ `${index}-ingredient-step` }
-//   >
-//     <input type="checkbox" onChange={ a } id={ i } />
-//     <p>
-//       {`${ingredient} - ${value}`}
-//     </p>
-//   </div>
-// ));
