@@ -52,7 +52,6 @@ export default function Login() {
       </div>
       <fieldset className="container">
         <div className="box">
-          <p>Email</p>
           <input
             data-testid="email-input"
             type="email"
@@ -64,7 +63,6 @@ export default function Login() {
         </div>
 
         <div className="box">
-          <p>Senha</p>
           <input
             data-testid="password-input"
             type="password"
