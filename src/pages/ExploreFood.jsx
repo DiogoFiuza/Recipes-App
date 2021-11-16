@@ -35,7 +35,7 @@ export default function ExploreFood() {
       </Link>
       {
         surpriseApi.map((id, index) => (
-          <Link key={ index } to={ `/explorar/comidas/${id.idMeal}` }>
+          <Link key={ index } to={ `/comidas/${id.idMeal}` }>
             <button
               type="button"
               data-testid="explore-surprise"
