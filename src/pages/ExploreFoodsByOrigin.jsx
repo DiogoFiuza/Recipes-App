@@ -10,6 +10,10 @@ import {
   fetchAreas, fetchFoodByArea } from '../redux/slices/areaFoodListSlice';
 import { setOption, setQuery } from '../redux/slices/searchBarSlice';
 
+const container = {
+  width: '100px',
+};
+
 export default function ExploreFoodsByOrigin() {
   const title = 'Explorar Origem';
   const MAX_LENGTH = 12;
@@ -17,23 +21,19 @@ export default function ExploreFoodsByOrigin() {
   // const areas = areasApi.slice(0, MAX_LENGTH);
   const foodForArea = foodArea.slice(0, MAX_LENGTH);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchAreas());
     dispatch(fetchFoodByArea('American'));
   }, []);
-
   const handleClick = (nome) => {
     dispatch(setQuery(nome));
     dispatch(setOption('origin'));
     dispatch(callFunctionTrueArea());
   };
   console.log(handleClick);
-
   const handleChange = (area) => {
     dispatch(fetchFoodByArea(area));
   };
-
   // o Searchbar aqui é um dropdown
   return (
     <>
@@ -51,7 +51,6 @@ export default function ExploreFoodsByOrigin() {
             data-testid={ `${element.strArea}-option` }
           >
             {element.strArea}
-
           </option>
         ))}
         <option data-testid="All-option">All</option>
@@ -60,17 +59,20 @@ export default function ExploreFoodsByOrigin() {
         <Link
           key={ index }
           to={ `/comidas/${element.idMeal}` }
-          data-testid={ `${index}-recipe-card` }
+          style={ container }
         >
-          <div key={ index }>
+          <button
+            key={ index }
+            type="button"
+            data-testid={ `${index}-recipe-card` }
+          >
             <img
               src={ `${element.strMealThumb}/preview` }
               alt="imagem da comida"
               data-testid={ `${index}-card-img` }
             />
             <p data-testid={ `${index}-card-name` }>{element.strMeal}</p>
-
-          </div>
+          </button>
         </Link>
       ))}
       <Footer />
