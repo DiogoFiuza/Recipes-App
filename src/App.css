@@ -6,10 +6,10 @@ body {
   justify-content: center;
 }
 
-.share-button:focus:after, .share-button:active:after {
+/* .share-button:focus:after, .share-button:active:after {
   content: 'Link copiado!';
   display: block;
-}
+} */
 
 /* .meals {
   align-items: center;
