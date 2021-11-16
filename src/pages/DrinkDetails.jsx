@@ -79,7 +79,8 @@ export default function DrinkDetails() {
     const newStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const hasDrink = newStorage.find((drinks) => drinks.id === drinkDetail[0].idDrink);
     if (hasDrink) {
-      const removeDrink = newStorage.filter((cocktail) => cocktail.id !== drinkDetail[0].idDrink);
+      const removeDrink = newStorage
+        .filter((cocktail) => cocktail.id !== drinkDetail[0].idDrink);
       localStorage.setItem('favoriteRecipes', JSON.stringify(removeDrink));
       setSrcFavorite(false);
     } else {
