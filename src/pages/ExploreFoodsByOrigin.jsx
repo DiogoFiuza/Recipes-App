@@ -61,9 +61,8 @@ export default function ExploreFoodsByOrigin() {
           to={ `/comidas/${element.idMeal}` }
           style={ container }
         >
-          <button
+          <div
             key={ index }
-            type="button"
             data-testid={ `${index}-recipe-card` }
           >
             <img
@@ -72,7 +71,7 @@ export default function ExploreFoodsByOrigin() {
               data-testid={ `${index}-card-img` }
             />
             <p data-testid={ `${index}-card-name` }>{element.strMeal}</p>
-          </button>
+          </div>
         </Link>
       ))}
       <Footer />
