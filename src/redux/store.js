@@ -6,6 +6,7 @@ import recipeCategoriesReducer from './slices/recipesCategoriesSlice';
 import surpriseRecipeReducer from './slices/surpriseRecipeSlice';
 import ingredientListReducer from './slices/ingredientListSlice';
 import ingredientListDrinkReducer from './slices/ingredientsDrinkSlice';
+import areaFoodListReducer from './slices/areaFoodListSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,9 +14,10 @@ const store = configureStore({
     foodRecipes: foodRecipesReducer,
     drinkRecipes: drinkRecipesReducer,
     recipeCategories: recipeCategoriesReducer,
-    surpiseRecipe: surpriseRecipeReducer,
+    surpriseRecipe: surpriseRecipeReducer,
     ingredientsList: ingredientListReducer,
     ingredientsListDrink: ingredientListDrinkReducer,
+    areaFoodList: areaFoodListReducer,
   },
 });
 
