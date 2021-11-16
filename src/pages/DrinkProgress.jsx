@@ -3,7 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDrinkById } from '../redux/slices/drinkRecipesSlice';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import '../styles/pageProgress.css';
+
+const copy = require('clipboard-copy');
 
 export default function DrinkProgress() {
   const history = useHistory();
@@ -14,6 +18,44 @@ export default function DrinkProgress() {
   const { drinkDetail } = useSelector((store) => store.drinkRecipes);
   let ingredients = [];
   const [block, desblock] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const hasFavoriteInStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) || {};
+  const thisRecipeIsFavorited = hasFavoriteInStorage.length > 0
+    && hasFavoriteInStorage.some((receita) => receita.id === index);
+  const [srcFavorite, setSrcFavorite] = useState(thisRecipeIsFavorited);
+
+  const favorite = () => {
+    // recuperar dados do localStorage acrescentar objeto favoritado e tirar de favorito caso já tenha
+    if (!hasFavoriteInStorage.length > 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    const drink = {
+      id: drinkDetail[0].idDrink,
+      type: 'bebida',
+      area: '',
+      alcoholicOrNot: drinkDetail[0].strAlcoholic,
+      category: drinkDetail[0].strCategory,
+      name: drinkDetail[0].strDrink,
+      image: drinkDetail[0].strDrinkThumb,
+    };
+    const newStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const hasDrink = newStorage.find(
+      (drinks) => drinks.id === drinkDetail[0].idDrink,
+    );
+    if (hasDrink) {
+      const removeDrink = newStorage.filter(
+        (cocktail) => cocktail.id !== drinkDetail[0].idDrink,
+      );
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeDrink));
+      setSrcFavorite(false);
+    } else {
+      newStorage.push(drink);
+      console.log(newStorage);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newStorage));
+      setSrcFavorite(true);
+    }
+  };
 
   const setLocalState = () => {
     if (storageLocal === null) {
@@ -100,6 +142,11 @@ export default function DrinkProgress() {
     );
   };
 
+  const share = () => {
+    copy(`http://localhost:3000/bebidas/${index}`);
+    setCopied(true);
+  };
+
   useEffect(() => {
     dispatch(fetchDrinkById(index));
   }, []);
@@ -114,8 +161,25 @@ export default function DrinkProgress() {
             data-testid="recipe-photo"
           />
           <h2 data-testid="recipe-title">{drinks.strDrink}</h2>
-          <button type="button" data-testid="share-btn">S</button>
-          <button type="button" data-testid="favorite-btn">L</button>
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ () => share() }
+          >
+            Compartilhar
+          </button>
+          {copied && <p>Link copiado!</p>}
+          <button
+            onClick={ () => favorite() }
+            type="button"
+            src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
+            data-testid="favorite-btn"
+          >
+            <img
+              src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="favoritesvg"
+            />
+          </button>
           <p data-testid="recipe-category">{drinks.strAlcoholic}</p>
           <ul>
             {checklist()}
