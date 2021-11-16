@@ -16,6 +16,7 @@ export default function FoodDetails() {
   const index = path.split('/')[2];
   const dispatch = useDispatch();
   const { mealDetail } = useSelector((store) => store.foodRecipes);
+  console.log(mealDetail);
   const { suggestedDrink } = useSelector((store) => store.drinkRecipes);
   const [copied, setCopied] = useState(false);
 
@@ -27,7 +28,7 @@ export default function FoodDetails() {
   const hasFavoriteInStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) || {};
   const thisRecipeIsFavorited = hasFavoriteInStorage.length > 0 && hasFavoriteInStorage
     .some((receita) => receita.id === index);
-  const [srcFavorite] = useState(thisRecipeIsFavorited);
+  const [srcFavorite, setSrcFavorite] = useState(thisRecipeIsFavorited);
 
   useEffect(() => {
     dispatch(fetchFoodById(index));
@@ -64,6 +65,34 @@ export default function FoodDetails() {
     setCopied(true);
   };
 
+  const favorite = () => {
+    // recuperar dados do localStorage acrescentar objeto favoritado e tirar de favorito caso já tenha
+    if (!hasFavoriteInStorage.length > 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    const meal = {
+      id: mealDetail[0].idMeal,
+      type: 'comida',
+      area: mealDetail[0].strArea,
+      category: mealDetail[0].strCategory,
+      alcoholicOrNot: '',
+      name: mealDetail[0].strMeal,
+      image: mealDetail[0].strMealThumb,
+    };
+    const newStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const hasMeal = newStorage.find((food) => food.id === mealDetail[0].idMeal);
+    if (hasMeal) {
+      const removeMeal = newStorage.filter((food) => food.id !== mealDetail[0].idMeal);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeMeal));
+      setSrcFavorite(false);
+    } else {
+      newStorage.push(meal);
+      console.log(newStorage);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newStorage));
+      setSrcFavorite(true);
+    }
+  };
+
   return (
     <>
       FoodDetail
@@ -86,6 +115,7 @@ export default function FoodDetails() {
           </button>
           { copied && <p>Link copiado!</p> }
           <button
+            onClick={ () => favorite() }
             type="button"
             src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
             data-testid="favorite-btn"

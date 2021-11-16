@@ -25,10 +25,10 @@ export default function DrinkDetails() {
   const [copied, setCopied] = useState(false);
 
   // Requisito 43
-  const hasFavoriteInStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) || {};
+  const hasFavoriteInStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
   const thisRecipeIsFavorited = hasFavoriteInStorage.length > 0 && hasFavoriteInStorage
     .some((receita) => receita.id === index);
-  const [srcFavorite] = useState(thisRecipeIsFavorited);
+  const [srcFavorite, setSrcFavorite] = useState(thisRecipeIsFavorited);
 
   useEffect(() => {
     dispatch(fetchDrinkById(index));
@@ -62,6 +62,34 @@ export default function DrinkDetails() {
     setCopied(true);
   };
 
+  const favorite = () => {
+    // recuperar dados do localStorage acrescentar objeto favoritado e tirar de favorito caso já tenha
+    if (!hasFavoriteInStorage.length > 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    const drink = {
+      id: drinkDetail[0].idDrink,
+      type: 'bebida',
+      area: '',
+      alcoholicOrNot: drinkDetail[0].strAlcoholic,
+      category: drinkDetail[0].strCategory,
+      name: drinkDetail[0].strDrink,
+      image: drinkDetail[0].strDrinkThumb,
+    };
+    const newStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const hasDrink = newStorage.find((drinks) => drinks.id === drinkDetail[0].idDrink);
+    if (hasDrink) {
+      const removeDrink = newStorage.filter((cocktail) => cocktail.id !== drinkDetail[0].idDrink);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(removeDrink));
+      setSrcFavorite(false);
+    } else {
+      newStorage.push(drink);
+      console.log(newStorage);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newStorage));
+      setSrcFavorite(true);
+    }
+  };
+
   return (
     <>
       DrinkDetails
@@ -86,6 +114,7 @@ export default function DrinkDetails() {
             { copied && <p>Link copiado!</p> }
             <button
               type="button"
+              onClick={ () => favorite() }
               src={ srcFavorite ? blackHeartIcon : whiteHeartIcon }
               data-testid="favorite-btn"
             >
