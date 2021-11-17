@@ -22,9 +22,11 @@ export default function RecipesMade() {
   };
 
   // Copiar informação para a área de transferência, src: https://stackoverflow.com/a/52033479
-  const copyToClipboard = (recipeType, id) => {
+  const copyToClipboard = (e, recipeType, id) => {
     const path = `http://localhost:3000/${recipeType}s/${id}`;
     copy(path);
+    const span = '<span>Link copiado!</span>';
+    e.target.parentNode.innerHTML = span;
   };
 
   return (
@@ -104,7 +106,7 @@ export default function RecipesMade() {
                   <button
                     className="share-button"
                     type="button"
-                    onClick={ () => copyToClipboard(recipe.type, id) }
+                    onClick={ (e) => copyToClipboard(e, recipe.type, id) }
                   >
                     <img
                       data-testid={ `${index}-horizontal-share-btn` }
