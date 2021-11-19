@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  margin-top: 14px;
 }
 
 .box {
@@ -23,6 +24,16 @@ p {
   padding-left: 20px;
 }
 
+.password {
+  margin-left: 10px;
+  text-align: left;
+}
+
+.email {
+  margin-left: 10px;
+  text-align: left;
+}
+
 .submitForm [ disabled ], .submitForm:disabled {
   background-color: rgb(180, 180, 180);
   color: rgb(71, 70, 70);
@@ -38,4 +49,13 @@ p {
   border: solid red 1px;
   box-shadow: none;
   color: red;
+}
+
+.form button:focus {
+  outline: none;
+}
+
+.form button:active {
+  box-shadow: rgba(0, 0, 0, 0.349) 0 -2px 5px;
+  margin-top: 15px;
 }

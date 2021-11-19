@@ -43,15 +43,16 @@ export default function Login() {
   };
 
   return (
-    <form className="">
+    <form className="form">
       <div className={ help }>
         <button type="button" onClick={ toggleHelp } className="close">X</button>
-        <div className="clicavel"><p>O botão não é Clicavel</p></div>
-        <div className="registro"><p>Não tenho registo</p></div>
-        <div className="rapido"><p>Quero um meio Rápido</p></div>
+        <div className="clicavel helper"><p>O botão não é Clicavel</p></div>
+        <div className="registro helper"><p>Não tenho registo</p></div>
+        <div className="rapido helper"><p>Quero um meio Rápido</p></div>
       </div>
       <fieldset className="container">
         <div className="box">
+          <p className="email">Email</p>
           <input
             data-testid="email-input"
             type="email"
@@ -63,6 +64,7 @@ export default function Login() {
         </div>
 
         <div className="box">
+          <p className="password">Senha</p>
           <input
             data-testid="password-input"
             type="password"

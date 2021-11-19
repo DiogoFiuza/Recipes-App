@@ -7,6 +7,7 @@ import FoodCategories from '../components/FoodCategories';
 import Header from '../components/Header';
 import MealRecipeCard from '../components/MealRecipeCard';
 import SearchBar from '../components/SearchBar';
+import '../styles/main.css';
 import {
   fetchMeals,
   fetchMealsByCategory,
@@ -24,6 +25,7 @@ export default function FoodRecipes() {
   const [currentCategory, setCurrentCategory] = useState('All');
 
   const handleSubmit = () => {
+    console.log('clickado');
     setSubmitted(true);
     const payload = { query, option };
     if (query.length !== 1 && option === 'firstLetter') {
@@ -51,7 +53,7 @@ export default function FoodRecipes() {
 
     const filteredMeals = meals.slice(0, MAX_LENGTH);
     return (
-      <section>
+      <section className="section">
         {filteredMeals.map((meal, index) => (
           <MealRecipeCard key={ meal.idMeal } index={ index } meal={ meal } />
         ))}

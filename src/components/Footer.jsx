@@ -1,43 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import drinkIcon from '../images/drinkIcon.svg';
-import exploreIcon from '../images/exploreIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
+import { useDispatch } from 'react-redux';
+import { toggleShowSearch } from '../redux/slices/showSearchSlice';
 // Thomaz && Felippe
-const container = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  position: 'fixed',
-  left: 0,
-  right: 0,
-  bottom: 0,
-  width: '100%',
-  textAling: 'center',
-  backgroundColor: 'rgb(248, 101, 101)',
-};
 
 export default function Footer() {
+  const dispatch = useDispatch();
+  // const [showSearchBar, setShowSearchBar] = useState(false);
+
+  // const toggleSearchBar = () => {
+  //   setShowSearchBar(!showSearchBar);
+  // };
+
   return (
-    <footer style={ container } data-testid="footer">
-      <Link to="/bebidas">
+    <footer className="footer" data-testid="footer">
+      <Link to="/perfil">
         <img
-          src={ drinkIcon }
-          alt="bebidas"
+          src="https://cdn-icons.flaticon.com/png/512/3311/premium/3311746.png?token=exp=1637200142~hmac=c4072d9cbd9baebc9f375ef89cd95a5b"
+          alt="botão de perfil"
           data-testid="drinks-bottom-btn"
         />
       </Link>
+      <div>
+        <button type="button" onClick={ () => dispatch(toggleShowSearch()) }>
+          <img
+            src="https://cdn-icons.flaticon.com/png/512/2989/premium/2989907.png?token=exp=1637200210~hmac=cfca4ec21a54fae7a576bd459f698412"
+            alt="botão de pesquisa"
+            data-testid="explore-bottom-btn"
+          />
+        </button>
+
+      </div>
       <Link to="/explorar">
         <img
-          src={ exploreIcon }
-          alt="bebidas"
-          data-testid="explore-bottom-btn"
-        />
-      </Link>
-      <Link to="/comidas">
-        <img
-          src={ mealIcon }
-          alt="bebidas"
+          src="https://cdn-icons.flaticon.com/png/512/2516/premium/2516745.png?token=exp=1637200294~hmac=84a65fe4fae0e897de4168f44d77f1e7"
+          alt="botão mais opções"
           data-testid="food-bottom-btn"
         />
       </Link>

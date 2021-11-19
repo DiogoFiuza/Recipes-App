@@ -1,0 +1,56 @@
+.container-drink {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 0;
+  margin-bottom: 60px;
+  padding: 0;
+  width: 100%;
+}
+
+.container-drink img {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.card-recipe-drink {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.212) 0 0 5px;
+  color: black;
+  display: flex;
+  flex-direction: column-reverse;
+  height: 217px;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 0;
+  width: 165px;
+}
+
+
+.drink-ingredients {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  overflow-x: auto;
+  text-align: center;
+  width: 360px;
+}
+
+.drink-ingredients button {
+  align-items: center;
+  background-color: white;
+  border: none;
+  border-style: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  outline: none;
+}
+
+.drink-ingredients button:active {
+  border: none;
+  border-style: none;
+  outline: none;
+}
