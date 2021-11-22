@@ -16,7 +16,7 @@ export default function Footer() {
     <footer className="footer" data-testid="footer">
       <Link to="/perfil">
         <img
-          src="https://cdn-icons.flaticon.com/png/512/3311/premium/3311746.png?token=exp=1637200142~hmac=c4072d9cbd9baebc9f375ef89cd95a5b"
+          src="https://cdn-icons-png.flaticon.com/512/54/54342.png"
           alt="botão de perfil"
           data-testid="drinks-bottom-btn"
         />
@@ -24,7 +24,7 @@ export default function Footer() {
       <div>
         <button type="button" onClick={ () => dispatch(toggleShowSearch()) }>
           <img
-            src="https://cdn-icons.flaticon.com/png/512/2989/premium/2989907.png?token=exp=1637200210~hmac=cfca4ec21a54fae7a576bd459f698412"
+            src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
             alt="botão de pesquisa"
             data-testid="explore-bottom-btn"
           />
@@ -33,7 +33,7 @@ export default function Footer() {
       </div>
       <Link to="/explorar">
         <img
-          src="https://cdn-icons.flaticon.com/png/512/2516/premium/2516745.png?token=exp=1637200294~hmac=84a65fe4fae0e897de4168f44d77f1e7"
+          src="https://cdn-icons-png.flaticon.com/512/54/54676.png"
           alt="botão mais opções"
           data-testid="food-bottom-btn"
         />
