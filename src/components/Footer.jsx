@@ -1,43 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import drinkIcon from '../images/drinkIcon.svg';
-import exploreIcon from '../images/exploreIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
+import { useDispatch } from 'react-redux';
+import { toggleShowSearch } from '../redux/slices/showSearchSlice';
 // Thomaz && Felippe
-const container = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  position: 'fixed',
-  left: 0,
-  right: 0,
-  bottom: 0,
-  width: '100%',
-  textAling: 'center',
-  backgroundColor: 'rgb(248, 101, 101)',
-};
 
 export default function Footer() {
+  const dispatch = useDispatch();
+  // const [showSearchBar, setShowSearchBar] = useState(false);
+
+  // const toggleSearchBar = () => {
+  //   setShowSearchBar(!showSearchBar);
+  // };
+
   return (
-    <footer style={ container } data-testid="footer">
-      <Link to="/bebidas">
+    <footer className="footer" data-testid="footer">
+      <Link to="/perfil">
         <img
-          src={ drinkIcon }
-          alt="bebidas"
+          src="https://cdn-icons-png.flaticon.com/512/54/54342.png"
+          alt="botão de perfil"
           data-testid="drinks-bottom-btn"
         />
       </Link>
+      <div>
+        <button type="button" onClick={ () => dispatch(toggleShowSearch()) }>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
+            alt="botão de pesquisa"
+            data-testid="explore-bottom-btn"
+          />
+        </button>
+
+      </div>
       <Link to="/explorar">
         <img
-          src={ exploreIcon }
-          alt="bebidas"
-          data-testid="explore-bottom-btn"
-        />
-      </Link>
-      <Link to="/comidas">
-        <img
-          src={ mealIcon }
-          alt="bebidas"
+          src="https://cdn-icons-png.flaticon.com/512/54/54676.png"
+          alt="botão mais opções"
           data-testid="food-bottom-btn"
         />
       </Link>

@@ -15,15 +15,14 @@ export default function Home() {
         type="button"
         onTouchMove={ () => history.push('/comidas') }
       >
-        <div className="logo">
-          <button
-            className="cheat"
-            type="button"
-            onDoubleClick={ () => history.push('/comidas') }
-          >
-            <img src={ chiquem } className="chiquem-logo" alt="logo" />
-          </button>
-        </div>
+
+        <button
+          className="cheat logo"
+          type="button"
+          onDoubleClick={ () => history.push('/comidas') }
+        >
+          <img src={ chiquem } className="chiquem-logo" alt="logo" />
+        </button>
 
         <main className="container-login-form">
           <p className="describe">Insira email e senha para acessar</p>

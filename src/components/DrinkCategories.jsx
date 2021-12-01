@@ -12,7 +12,7 @@ export default function DrinkCategories({ handleFilters }) {
     const MAX_LENGTH = 5;
     const baseCategories = drinkCategories.slice(0, MAX_LENGTH);
     return (
-      <section>
+      <section className="drink-ingredients">
         { baseCategories.map((category) => (
           <button
             type="button"

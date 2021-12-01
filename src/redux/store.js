@@ -7,9 +7,11 @@ import surpriseRecipeReducer from './slices/surpriseRecipeSlice';
 import ingredientListReducer from './slices/ingredientListSlice';
 import ingredientListDrinkReducer from './slices/ingredientsDrinkSlice';
 import areaFoodListReducer from './slices/areaFoodListSlice';
+import showSearchReducer from './slices/showSearchSlice';
 
 const store = configureStore({
   reducer: {
+    showSearch: showSearchReducer,
     searchBar: searchBarReducer,
     foodRecipes: foodRecipesReducer,
     drinkRecipes: drinkRecipesReducer,

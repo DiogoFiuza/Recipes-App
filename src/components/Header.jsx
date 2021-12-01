@@ -1,49 +1,64 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import profileIcon from '../images/profileIcon.svg';
-import searchIcon from '../images/searchIcon.svg';
-
-const container = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'rgb(248, 101, 101)',
-};
-const titleStyle = { display: 'inline', padding: '20px' };
+import { useSelector } from 'react-redux';
+// import profileIcon from '../images/profileIcon.svg';
 
 export default function Header(props) {
   const { title, searchBar } = props;
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [selectedComida, setSelectedComida] = useState('option-categoty');
+  const [selectedBebida, setSelectedBebida] = useState('');
+  const { show } = useSelector((state) => state.showSearch);
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
   };
 
+  const comidaSelected = () => {
+    setSelectedComida('option-categoty');
+    setSelectedBebida('');
+  };
+  const bebidaSelected = () => {
+    setSelectedComida('');
+    setSelectedBebida('option-categoty');
+  };
+
+  console.log(show);
   return (
     <header>
-      <div style={ container }>
-        <Link to="/perfil">
-          <img
-            data-testid="profile-top-btn"
-            src={ profileIcon }
-            alt="Ícone de perfil"
-          />
-        </Link>
-        <h1 data-testid="page-title" style={ titleStyle }>
+      <div className="top-bar">
+        <div className="category-selected">
+          <Link
+            to="/comidas"
+            onClick={ comidaSelected }
+            className={ selectedComida }
+          >
+            <h2>Comidas</h2>
+          </Link>
+          <Link
+            to="/bebidas"
+            className={ selectedBebida }
+            onClick={ bebidaSelected }
+          >
+            <h2>Bebidas</h2>
+          </Link>
+        </div>
+
+        {/* <h1 data-testid="page-title">
           {title}
-        </h1>
-        {searchBar && (
+        </h1> */}
+        {/* {searchBar && (
           <button type="button" onClick={ toggleSearchBar }>
             <img
               data-testid="search-top-btn"
-              src={ searchIcon }
+              src=""
               alt="Lupa: Botão de pesquisa"
             />
           </button>
-        )}
+        )} */}
       </div>
-      {showSearchBar && searchBar}
+      {show && searchBar}
     </header>
   );
 }

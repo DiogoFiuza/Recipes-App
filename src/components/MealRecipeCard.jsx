@@ -6,14 +6,24 @@ import { Link } from 'react-router-dom';
 export default function MealRecipeCard({ meal, index }) {
   return (
     <Link to={ `/comidas/${meal.idMeal}` }>
-      <div data-testid={ `${index}-recipe-card` }>
-        <img
-          data-testid={ `${index}-card-img` }
-          src={ meal.strMealThumb }
-          alt={ meal.strMeal }
-          width="100"
-        />
-        <p data-testid={ `${index}-card-name` }>{ meal.strMeal }</p>
+      <div className="container-card-food">
+        <div className="card-recipe-food card" data-testid={ `${index}-recipe-card` }>
+          <div className="chato">
+            <p
+              className="title-card"
+              data-testid={ `${index}-card-name` }
+            >
+              { meal.strMeal }
+            </p>
+          </div>
+          <img
+            className="img-card"
+            data-testid={ `${index}-card-img` }
+            src={ meal.strMealThumb }
+            alt={ meal.strMeal }
+            width="100"
+          />
+        </div>
       </div>
     </Link>
   );
