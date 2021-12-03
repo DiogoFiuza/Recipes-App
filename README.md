@@ -1,9 +1,9 @@
 # App de Receitas 🍔🍷
 
 
-<img width="150px" src="login.gif" />
-<img width="150px" src="detalhes-das-bebidas.gif"/>
-<img width="150px" src="detalhes-das-comidas.gif"/>
+<img width="250px" src="login.gif"></img>
+<img width="250px" src="detalhes-das-bebidas.gif"></img>
+<img width="250px" src="detalhes-das-comidas.gif"></img>
 <br/>
 <br/>
 
