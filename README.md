@@ -19,7 +19,7 @@ O objetivo do projeto é elaborar um App no qual o usuário possa acessar a rece
 
 - Diogo Fiuza
 - Leandro Xavier
-- Matheus Felippe
+- Marcos Felippe
 - Thomas Ferreira
 - Vinícius Silva
 
