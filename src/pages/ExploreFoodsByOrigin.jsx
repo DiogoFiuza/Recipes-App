@@ -21,10 +21,12 @@ export default function ExploreFoodsByOrigin() {
   // const areas = areasApi.slice(0, MAX_LENGTH);
   const foodForArea = foodArea.slice(0, MAX_LENGTH);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchAreas());
     dispatch(fetchFoodByArea('American'));
   }, []);
+
   const handleClick = (nome) => {
     dispatch(setQuery(nome));
     dispatch(setOption('origin'));

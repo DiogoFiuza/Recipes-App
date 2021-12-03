@@ -20,11 +20,9 @@ export default function FoodDetails() {
   const { suggestedDrink } = useSelector((store) => store.drinkRecipes);
   const [copied, setCopied] = useState(false);
 
-  // Requisito 40
   const storage = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
   const showButton = Object.keys(storage).length > 0 && storage.meals[index];
 
-  // Requisito 44
   const hasFavoriteInStorage = JSON.parse(localStorage.getItem('favoriteRecipes')) || {};
   const thisRecipeIsFavorited = hasFavoriteInStorage.length > 0
     && hasFavoriteInStorage.some((receita) => receita.id === index);
@@ -86,11 +84,17 @@ export default function FoodDetails() {
       setSrcFavorite(false);
     } else {
       newStorage.push(meal);
-      console.log(newStorage);
       localStorage.setItem('favoriteRecipes', JSON.stringify(newStorage));
       setSrcFavorite(true);
     }
   };
+
+  const videoLink = (link) => {
+    const code = link.split('v=');
+    return `http://www.youtube.com/embed/${code[1]}`;
+  };
+
+  console.log(suggestedDrink);
 
   return (
     <>
@@ -146,7 +150,7 @@ export default function FoodDetails() {
                 </p>
                 <h3>Vídeo</h3>
                 <iframe
-                  src={ meal.strYoutube }
+                  src={ videoLink(meal.strYoutube) }
                   title={ `video ${meal}` }
                   frameBorder="0"
                   data-testid="video"

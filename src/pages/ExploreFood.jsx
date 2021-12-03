@@ -22,7 +22,6 @@ export default function ExploreFood() {
           data-testid="explore-by-ingredient"
         >
           Por Ingredientes
-
         </button>
       </Link>
       <Link to="/explorar/comidas/area">

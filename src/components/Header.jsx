@@ -5,15 +5,11 @@ import { useSelector } from 'react-redux';
 // import profileIcon from '../images/profileIcon.svg';
 
 export default function Header(props) {
-  const { title, searchBar } = props;
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const [selectedComida, setSelectedComida] = useState('option-categoty');
+  const { searchBar } = props;
+  // const [showSearchBar, setShowSearchBar] = useState(false);
+  const [selectedComida, setSelectedComida] = useState();
   const [selectedBebida, setSelectedBebida] = useState('');
   const { show } = useSelector((state) => state.showSearch);
-
-  const toggleSearchBar = () => {
-    setShowSearchBar(!showSearchBar);
-  };
 
   const comidaSelected = () => {
     setSelectedComida('option-categoty');
@@ -24,7 +20,6 @@ export default function Header(props) {
     setSelectedBebida('option-categoty');
   };
 
-  console.log(show);
   return (
     <header>
       <div className="top-bar">
@@ -64,7 +59,6 @@ export default function Header(props) {
 }
 
 Header.propTypes = {
-  title: PropTypes.string.isRequired,
   searchBar: PropTypes.objectOf(PropTypes.any),
 };
 
